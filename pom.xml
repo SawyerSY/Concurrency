@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>neusoft.sawyer.concurrency</groupId>
-    <artifactId>Concurrency</artifactId>
+    <artifactId>concurrency</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>Concurrency</name>
+    <name>concurrency</name>
     <description>并发学习Demo</description>
 
     <parent>
