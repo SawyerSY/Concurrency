@@ -10,7 +10,7 @@
     <packaging>war</packaging>
 
     <name>concurrency</name>
-    <description>并发学习Demo</description>
+    <description>并发学习</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
