@@ -1,4 +1,4 @@
-package neusoft.sawyer.concurrency.example.count;
+package neusoft.sawyer.concurrency.example.atomic;
 
 import lombok.extern.slf4j.Slf4j;
 import neusoft.sawyer.concurrency.annotation.ThreadSafe;
@@ -13,7 +13,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by sawyer on 2018/6/9.
@@ -22,18 +22,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ThreadSafe
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class CountExample2 {
+public class AtomicBooleanExample {
 
     private static int clientTotal = 5000;
 
     private static int threadTotal = 200;
 
-    private static AtomicInteger count = new AtomicInteger(0);
+    private static AtomicBoolean isHappened = new AtomicBoolean(false);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CountExample2.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AtomicBooleanExample.class);
 
     @Test
-    public void test() {
+    public void invoke() throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
         Semaphore semaphore = new Semaphore(threadTotal);
         CountDownLatch countDownLatch = new CountDownLatch(clientTotal);
@@ -42,23 +42,21 @@ public class CountExample2 {
                 try {
                     semaphore.acquire();
                 } catch (InterruptedException e) {
-                    LOGGER.warn("Exception", e);
+                    LOGGER.error("Exception", e);
                 }
-                add();
+                test();
                 semaphore.release();
                 countDownLatch.countDown();
             });
         }
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            LOGGER.warn("Exception", e);
-        }
+        countDownLatch.await();
         executorService.shutdown();
-        LOGGER.info("count = {}", count);
+        LOGGER.info("isHappened:{}", isHappened);
     }
 
-    private static void add() {
-        count.incrementAndGet();
+    private static void test() {
+        if (isHappened.compareAndSet(false, true)) {
+            LOGGER.info("execute");
+        }
     }
 }

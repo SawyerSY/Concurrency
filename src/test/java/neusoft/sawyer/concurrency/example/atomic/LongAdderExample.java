@@ -1,6 +1,6 @@
-package neusoft.sawyer.concurrency.example.count;
+package neusoft.sawyer.concurrency.example.atomic;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j;
 import neusoft.sawyer.concurrency.annotation.ThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,27 +13,27 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * Created by sawyer on 2018/6/9.
  */
-@Slf4j
+@Log4j
 @ThreadSafe
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class CountExample2 {
+public class LongAdderExample {
 
     private static int clientTotal = 5000;
 
     private static int threadTotal = 200;
 
-    private static AtomicInteger count = new AtomicInteger(0);
+    private static LongAdder count = new LongAdder();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CountExample2.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LongAdderExample.class);
 
     @Test
-    public void test() {
+    public void test() throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
         Semaphore semaphore = new Semaphore(threadTotal);
         CountDownLatch countDownLatch = new CountDownLatch(clientTotal);
@@ -49,16 +49,12 @@ public class CountExample2 {
                 countDownLatch.countDown();
             });
         }
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            LOGGER.warn("Exception", e);
-        }
+        countDownLatch.await();
         executorService.shutdown();
         LOGGER.info("count = {}", count);
     }
 
     private static void add() {
-        count.incrementAndGet();
+        count.increment();
     }
 }

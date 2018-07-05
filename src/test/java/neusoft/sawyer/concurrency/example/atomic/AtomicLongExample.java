@@ -1,7 +1,7 @@
 package neusoft.sawyer.concurrency.example.atomic;
 
 import lombok.extern.slf4j.Slf4j;
-import neusoft.sawyer.concurrency.annoation.ThreadSafe;
+import neusoft.sawyer.concurrency.annotation.ThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
