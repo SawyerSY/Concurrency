@@ -7,8 +7,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,8 +20,6 @@ import java.util.concurrent.*;
 @Aspect
 @Component
 public class RepeatExecuteAspect {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RepeatExecuteAspect.class);
 
     @Pointcut("@annotation(neusoft.sawyer.concurrency.annotation.RepeatExecute)")
     private void batchExecutePointCut() {
@@ -55,7 +51,7 @@ public class RepeatExecuteAspect {
                     countDownLatch.countDown();
                     return result[0];
                 } catch (Throwable throwable) {
-                    LOGGER.error("Exception", throwable);
+                    log.error("Invoke exception.", throwable);
                     throw new RuntimeException(throwable);
                 }
             };

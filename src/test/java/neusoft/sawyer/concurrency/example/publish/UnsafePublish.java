@@ -18,6 +18,9 @@ public class UnsafePublish {
 
     private String[] status = {"a", "b", "c"};
 
+    /*
+     * 通过公有方法发布成员变量，在其他线程中可以修改数组的值，有并发问题
+     * */
     public String[] getStatus() {
         return this.status;
     }

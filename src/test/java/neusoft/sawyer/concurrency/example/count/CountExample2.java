@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import neusoft.sawyer.concurrency.annotation.ThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -30,8 +28,6 @@ public class CountExample2 {
 
     private static AtomicInteger count = new AtomicInteger(0);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CountExample2.class);
-
     @Test
     public void test() {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -42,7 +38,7 @@ public class CountExample2 {
                 try {
                     semaphore.acquire();
                 } catch (InterruptedException e) {
-                    LOGGER.warn("Exception", e);
+                    log.warn("Exception", e);
                 }
                 add();
                 semaphore.release();
@@ -52,10 +48,10 @@ public class CountExample2 {
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            LOGGER.warn("Exception", e);
+            log.warn("Exception", e);
         }
         executorService.shutdown();
-        LOGGER.info("count = {}", count);
+        log.info("count = {}", count);
     }
 
     private static void add() {

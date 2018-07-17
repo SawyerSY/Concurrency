@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import neusoft.sawyer.concurrency.annotation.ThreadSafe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -30,8 +28,6 @@ public class AtomicBooleanExample {
 
     private static AtomicBoolean isHappened = new AtomicBoolean(false);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AtomicBooleanExample.class);
-
     @Test
     public void invoke() throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -42,7 +38,7 @@ public class AtomicBooleanExample {
                 try {
                     semaphore.acquire();
                 } catch (InterruptedException e) {
-                    LOGGER.error("Exception", e);
+                    log.error("Exception", e);
                 }
                 test();
                 semaphore.release();
@@ -51,12 +47,12 @@ public class AtomicBooleanExample {
         }
         countDownLatch.await();
         executorService.shutdown();
-        LOGGER.info("isHappened:{}", isHappened);
+        log.info("isHappened:{}", isHappened);
     }
 
     private static void test() {
         if (isHappened.compareAndSet(false, true)) {
-            LOGGER.info("execute");
+            log.info("execute");
         }
     }
 }

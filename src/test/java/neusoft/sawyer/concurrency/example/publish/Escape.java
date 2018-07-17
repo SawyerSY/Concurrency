@@ -3,8 +3,7 @@ package neusoft.sawyer.concurrency.example.publish;
 import lombok.extern.slf4j.Slf4j;
 import neusoft.sawyer.concurrency.annotation.NotRecommend;
 import neusoft.sawyer.concurrency.annotation.NotThreadSafe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import neusoft.sawyer.concurrency.annotation.RepeatExecute;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,21 +15,24 @@ import org.springframework.stereotype.Component;
 @NotThreadSafe
 public class Escape {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Escape.class);
-
-    private int thisCanBeEscape = 0;
+    private Integer thisCanBeEscape = 0;
 
     public Escape() {
         new InnerClass();
     }
 
-    private class InnerClass {
-        public InnerClass() {
+    public class InnerClass {
+        private InnerClass() {
             this.log();
         }
 
         private void log() {
-            LOGGER.info("{}", Escape.this.thisCanBeEscape);
+            log.info("{}", Escape.this.thisCanBeEscape);
         }
+    }
+
+    @RepeatExecute
+    public void invoke() {
+        new Escape();
     }
 }

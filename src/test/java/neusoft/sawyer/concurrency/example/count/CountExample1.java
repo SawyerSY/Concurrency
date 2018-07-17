@@ -3,8 +3,6 @@ package neusoft.sawyer.concurrency.example.count;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -27,8 +25,6 @@ public class CountExample1 {
     private static int threadTotal = 200;    // 线程并发数
     private static int count = 0;   // 计数器
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CountExample1.class);
-
     @Test
     public void test() throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -39,7 +35,7 @@ public class CountExample1 {
                 try {
                     semaphore.acquire();
                 } catch (InterruptedException e) {
-                    LOGGER.error("exception", e);
+                    log.error("exception", e);
                 }
                 CountExample1.add();
                 semaphore.release();
@@ -48,7 +44,7 @@ public class CountExample1 {
         }
         countDownLatch.await();
         executorService.shutdown();
-        LOGGER.info("count: {}", count);
+        log.info("count: {}", count);
     }
 
     private static void add() {
