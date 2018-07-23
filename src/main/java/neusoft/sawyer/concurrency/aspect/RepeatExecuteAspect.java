@@ -15,6 +15,20 @@ import java.util.concurrent.*;
 
 /**
  * Created by sawyer on 2018/6/11.
+ * <p>
+ * 注意：
+ * <p>
+ * 1. 当有异常抛出时，会抓异常并打印ERROR日志，不会block执行.
+ * <p>
+ * 2. 默认最大并发数200，总线程数5000.
+ * <p>
+ * 使用示例:
+ * <pre>
+ * {@link RepeatExecute}(clientTotal = 100, threadTotal = 1000)}
+ * void execute() {
+ *      // do repeat method.
+ * }
+ * </pre>
  */
 @Slf4j
 @Aspect
