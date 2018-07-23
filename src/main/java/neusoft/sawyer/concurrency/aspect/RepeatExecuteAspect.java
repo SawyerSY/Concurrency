@@ -47,12 +47,13 @@ public class RepeatExecuteAspect {
                 try {
                     semaphore.acquire();
                     result[0] = pjp.proceed(pjp.getArgs());
-                    semaphore.release();
-                    countDownLatch.countDown();
                     return result[0];
                 } catch (Throwable throwable) {
                     log.error("Invoke exception.", throwable);
                     throw new RuntimeException(throwable);
+                } finally {
+                    semaphore.release();
+                    countDownLatch.countDown();
                 }
             };
             callableList.add(callable);
