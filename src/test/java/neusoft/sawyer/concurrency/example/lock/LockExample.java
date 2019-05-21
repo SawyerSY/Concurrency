@@ -19,13 +19,23 @@ import javax.annotation.Resource;
 public class LockExample {
 
     @Test
-    public void main() throws InterruptedException {
+    public void testReentrantLock() throws InterruptedException {
         long start = System.currentTimeMillis();
-        this.reentrantLock.invoke();
+        this.reentrantLockTest.invoke();
         long end = System.currentTimeMillis();
-        System.out.println(String.format("Count = %s, Cost = %s", ReentrantLock.count, (end - start)));
+        System.out.println(String.format("Count = %s, Cost = %s", ReentrantLockTest.count, (end - start)));
+    }
+
+    @Test
+    public void testReentrantReadWriteLock() {
+        long start = System.currentTimeMillis();
+        this.reentrantReadWriteLockTest.invoke();
+        long end = System.currentTimeMillis();
+        System.out.println(String.format("Cost = %s", (end - start)));
     }
 
     @Resource
-    private ReentrantLock reentrantLock;
+    private ReentrantLockTest reentrantLockTest;
+    @Resource
+    private ReentrantReadWriteLockTest reentrantReadWriteLockTest;
 }

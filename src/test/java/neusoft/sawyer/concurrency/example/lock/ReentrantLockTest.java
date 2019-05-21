@@ -6,15 +6,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by sawyer on 2019-05-20.
  */
 @Slf4j
 @Component
-public class ReentrantLock {
+public class ReentrantLockTest {
 
-    private static final Lock LOCK = new java.util.concurrent.locks.ReentrantLock(true);
+    private static final Lock LOCK = new ReentrantLock(true);
 
     static int count = 0;
 
